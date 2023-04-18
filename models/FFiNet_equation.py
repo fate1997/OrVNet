@@ -1,0 +1,48 @@
+import torch
+from torch import nn
+from .modules import ReadoutPhase, MLP
+from .FFiNet_model import FFiLayer
+
+
+class FFiNetEquationModel(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        
+        self.input_dim = config.model.input_dim
+        self.hidden_dim = config.model.hidden_dim
+        self.num_layers = config.model.num_layers  
+        self.num_heads = config.model.num_heads
+        self.dropout = config.model.dropout 
+        self.num_energies = config.model.num_energies
+        
+        self.message_passing = nn.ModuleList()
+        for i in range(self.num_layers):
+            self.message_passing.append(
+                FFiLayer(
+                    self.input_dim if i == 0 else self.hidden_dim,
+                    self.hidden_dim // self.num_heads,
+                    self.num_heads,
+                    dropout=self.dropout
+                ))
+        
+        self.readout = ReadoutPhase(self.hidden_dim)
+
+        self.pred= MLP(self.hidden_dim*2, 256, 4, 3, 0.1, nn.ELU())
+
+    def forward(self, data):
+        x, edge_index = data.x, data.edge_index
+        triple_index, quadra_index, pos, edge_attr= data.triple_index, data.quadra_index, data.pos, data.edge_attr
+        for layer in self.message_passing:
+            x = layer((x, edge_index, triple_index, quadra_index, pos, edge_attr))
+        
+        mol_repr = self.readout(x, data.batch)
+        params = self.pred(mol_repr)
+
+        temps = temperature_basis(data.temps/100)
+        viscosity = torch.matmul(temps, params.unsqueeze(-1))
+
+        return viscosity.squeeze(-1)
+
+
+def temperature_basis(temp):
+    return torch.stack([temp**0, 1/temp, temp, temp**2], axis=-1)
