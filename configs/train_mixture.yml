@@ -1,0 +1,28 @@
+desc: debug
+
+train:
+  seed: 42
+  num_epochs: 500
+  lr: 0.001
+  patience: 250
+  save_folder: './results/'
+  device: 'cuda:0'
+  log_interval: 10
+  pretrained_path: './trained_models/OrVNet.pt'
+
+
+model:
+  input_dim: 64
+  hidden_dim: 64
+  num_energies: 24
+  num_heads: 8
+  num_layers: 2
+  dropout: 0.2
+  return_repr: True
+
+
+data:
+  csv_path: '.\dataset\raw_files\viscosity_mixture.csv'
+  additional_features: ['pos', 'subgraph_index']
+  batch_size: 256
+  replace: False

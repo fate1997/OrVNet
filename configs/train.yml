@@ -1,0 +1,29 @@
+desc: debug
+
+train:
+  seed: 42
+  num_epochs: 1000
+  lr: 0.001
+  patience: 200
+  save_folder: './results/'
+  device: 'cuda:0'
+  log_interval: 10
+
+model:
+  name: 'OrVNet' # also can be FFiNetConcat or FFiNetEquation
+  input_dim: 64
+  hidden_dim: 64
+  num_energies: 24
+  num_heads: 8
+  num_layers: 2
+  dropout: 0.2
+  return_repr: False
+
+
+data:
+  name: 'viscosity_pure.pickle'
+  additional_features: ['pos', 'subgraph_index']
+  batch_size: 128
+  replace: False
+  flatten: True
+  logarithm: True
