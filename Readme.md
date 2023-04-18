@@ -1,0 +1,5 @@
+## Official Code for "Learning Temperature-dependent Molecular Representations for the Viscosity Predictions of Organic Liquids"
+
+
+
+Temperature-dependent molecular representations are essential for the accurate estimation of physical and chemical properties under various temperatures. However, there has been a lack of effective methods to incorporate temperature information into molecular representation models. To address this issue, we propose a new perspective to represent molecules based on the macro-state distribution of a molecule system, which provides a more comprehensive understanding of molecular behavior than a single molecular structure. This new method, called the Boltzmann layer, can transform temperature-independent molecular representations into temperature-dependent ones through the relationship between the macro-state distribution and temperature described by the Boltzmann distribution.
