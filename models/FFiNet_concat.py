@@ -1,7 +1,8 @@
 import torch
 from torch import nn
-from .modules import ReadoutPhase, MLP
+
 from .FFiNet_model import FFiLayer
+from .modules import MLP, ReadoutPhase
 
 
 class FFiNetConcatModel(nn.Module):

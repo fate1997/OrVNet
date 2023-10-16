@@ -1,6 +1,6 @@
-from torch import nn
-import torch
 import numpy as np
+import torch
+from torch import nn
 from torch.autograd import Variable
 from torch_geometric.nn import global_add_pool, global_max_pool
 

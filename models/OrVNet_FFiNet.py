@@ -1,7 +1,8 @@
 import torch
 from torch import nn
-from .modules import ReadoutPhase, MLP, BoltzmannLayer
+
 from .FFiNet_model import FFiLayer
+from .modules import MLP, BoltzmannLayer, ReadoutPhase
 
 
 class OrVNetModel(nn.Module):

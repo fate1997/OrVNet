@@ -1,16 +1,14 @@
-from rdkit import Chem, DataStructs
-from rdkit.Chem import AllChem
-from rdkit.Chem import Descriptors
-from rdkit.ML.Descriptors import MoleculeDescriptors
-
 from typing import List
+
+import networkx as nx
+import numpy as np
+import torch
+from rdkit import Chem, DataStructs
+from rdkit.Chem import AllChem, Descriptors
+from rdkit.ML.Descriptors import MoleculeDescriptors
 from scipy.sparse import coo_matrix
 
-import torch
-import numpy as np
-import networkx as nx
-
-from .feature_utils import subgraph_index, one_hot_encoding
+from .feature_utils import one_hot_encoding, subgraph_index
 
 Atom = Chem.rdchem.Atom
 Mol = Chem.Mol

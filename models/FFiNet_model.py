@@ -1,13 +1,13 @@
-import torch
-import torch.nn as nn
-from torch_geometric.data import Data
-from torch_geometric.nn import global_max_pool, global_add_pool
-from .model_utils import cal_distance, cal_dihedral, cal_angle
-from .modules import init_weight, PositionEncoder
-
 from typing import List, Tuple
 
 import numpy as np
+import torch
+import torch.nn as nn
+from torch_geometric.data import Data
+from torch_geometric.nn import global_add_pool, global_max_pool
+
+from .model_utils import cal_angle, cal_dihedral, cal_distance
+from .modules import PositionEncoder, init_weight
 
 
 def seed_all():

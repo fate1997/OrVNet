@@ -1,12 +1,11 @@
-from models.OrVNet_FFiNet import OrVNetModel
-from models.modules import MLP, TransformerEncoder
-
-from torch import nn
 import torch
-
 from torch import nn
-from .modules import ReadoutPhase, MLP, BoltzmannLayer
+
+from models.modules import MLP, TransformerEncoder
+from models.OrVNet_FFiNet import OrVNetModel
+
 from .FFiNet_model import FFiLayer
+from .modules import MLP, BoltzmannLayer, ReadoutPhase
 
 
 class Interaction(nn.Module):

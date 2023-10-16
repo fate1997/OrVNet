@@ -1,18 +1,20 @@
-from torch_geometric.data import Data
-from torch.utils.data import Dataset
-import torch
 import pickle
 from copy import deepcopy
 
+import torch
 from rdkit import Chem
+from torch.utils.data import Dataset
+from torch_geometric.data import Data
+
 Mol = Chem.Mol
 
 import os
-from tqdm import tqdm
 import random
 
-from .featurizer import MoleculeFeaturizer
 import pandas as pd
+from tqdm import tqdm
+
+from .featurizer import MoleculeFeaturizer
 
 
 class OrvData(Data):
@@ -26,12 +28,10 @@ class OrvData(Data):
         self.temps: torch.FloatTensor = None
         self.y: torch.FloatTensor = None
 
-    
     def __repr__(self):
         return f'OrvData(SMILES={self.smiles}, num_atomse={self.num_nodes}, edge_index={self.edge_index.shape})'    
             
  
-
 class OrvDataset(Dataset):
     def __init__(self, 
                  split: str='train',
@@ -43,10 +43,14 @@ class OrvDataset(Dataset):
         assert split in ['train', 'val', 'test']
         self.split = split
         self.data_list = []
+        
+        if os.path.exists(save_folder) is False:
+            os.makedirs(save_folder, exist_ok=True)
 
         self.raw_file_path = '.\\dataset/raw_files\\' + raw_file_name 
         self.additional_features = additional_features
-        self.processed_path = os.path.join(save_folder, 'OrVDataset_'+raw_file_name.split('.')[0]+'_'+split+'.pt')
+        self.processed_path = os.path.join(save_folder, 
+                                           'OrVDataset_'+raw_file_name.split('.')[0]+'_'+split+'.pt')
         
         if replace or not os.path.exists(self.processed_path):
             self._process()
@@ -95,7 +99,6 @@ class OrvDataset(Dataset):
         
         torch.save(self.data_list, self.processed_path)
     
-
     def logarithm(self):
         for data in self.data_list:
             data.y = torch.log(data.y)
@@ -144,7 +147,6 @@ class OrvMixData(Data):
     
     def __repr__(self):
         return f'OrvData(SMILES={self.smiles1, self.smiles2})'
-    
 
 
 class OrvMixDataset(Dataset):

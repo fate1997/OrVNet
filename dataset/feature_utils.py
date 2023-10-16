@@ -1,9 +1,6 @@
 from typing import List
 import torch
 
-from collections import defaultdict
-from itertools import combinations, chain
-
 
 def one_hot_encoding(value: int, choices: List) -> List:
     """
@@ -17,6 +14,7 @@ def one_hot_encoding(value: int, choices: List) -> List:
     encoding[index] = 1
 
     return encoding
+
 
 def subgraph_index(G, n):
 

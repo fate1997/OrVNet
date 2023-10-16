@@ -30,6 +30,8 @@ class EarlyStopping:
         self.early_stop = False
         self.val_loss_min = np.Inf
         self.path = path
+        if not os.path.exists(path):
+            os.makedirs(path, exist_ok=True)
         self.model_type = model_type
 
     def __call__(self, val_loss, model):
@@ -199,6 +201,9 @@ def mixture_batch_flatten(model, data_loader, logarithm=True):
 
 
 def save_results(model, data_loader, save_folder, model_type, train_mixture=False):
+    if not os.path.exists(save_folder):
+        os.makedirs(save_folder, exist_ok=True)
+    
     if train_mixture:
         y_true, y_pred, smiles1, smiles2, temp_list = mixture_batch_flatten(model, data_loader)
         results = pd.DataFrame(np.array([smiles2, temp_list, y_true, y_pred]).T, columns=['smiles2', 'T', 'y_true', 'y_pred'], index=smiles1)
